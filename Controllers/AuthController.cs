@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoDataHub.Controllers
 {
-    public class AuthApiController : Controller
+    public class AuthController : Controller
     {
         // POST: api/auth/register
         [HttpPost("register")]

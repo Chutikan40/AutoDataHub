@@ -8,7 +8,12 @@
     <div class="container">
         <h1 class="display-4">ยินดีต้อนรับสู่ AutoDataHub</h1>
         <p class="lead">แพลตฟอร์มที่ครบวงจรสำหรับการจัดการข้อมูลรถยนต์ ค้นพบ จัดการ และวิเคราะห์ข้อมูลรถยนต์ได้อย่างง่ายดาย</p>
-        <a href="#" class="btn btn-primary btn-lg">เริ่มต้นใช้งาน</a>
+        <a class="btn btn-primary btn-lg" id="login" asp-area="Identity" asp-page="/Account/Login">เริ่มต้นใช้งาน</a>
+        <!--
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        -->
     </div>
 </header>
 
@@ -43,6 +48,7 @@
     <div class="container">
         <h2>พร้อมที่จะปฏิวัติข้อมูลรถยนต์ของคุณแล้วหรือยัง?</h2>
         <p>เข้าร่วมกับ AutoDataHub วันนี้และเริ่มใช้เครื่องมือที่มีประสิทธิภาพในการจัดการและวิเคราะห์ข้อมูลรถยนต์ของคุณได้อย่างมีประสิทธิภาพ</p>
-        <a href="#" class="btn btn-light btn-lg">สมัครสมาชิกตอนนี้</a>
+        <!--<a href="#" class="btn btn-light btn-lg">สมัครสมาชิกตอนนี้</a>--!>
+        <partial name="_Loginpartial"></partial>
     </div>
 </section>

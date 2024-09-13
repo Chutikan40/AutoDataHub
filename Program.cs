@@ -1,16 +1,26 @@
 using AutoDataHub.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 // Configure EF Core to use SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connectionString);
+});
 
-//---เพิ่มการตั้งค่าสำหรับ Swagger---------------------------------------------------//
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddRazorPages();
+//---๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรต๏ฟฝ้งค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ Swagger---------------------------------------------------//
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -28,15 +38,15 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// เปิดใช้งาน Swagger สำหรับทุกโหมด
+// ๏ฟฝิด๏ฟฝ๏ฟฝาน Swagger ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ๏ฟฝุก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
 app.UseSwagger();
 
-// เปิดใช้งาน Swagger UI สำหรับทุกโหมด
+// ๏ฟฝิด๏ฟฝ๏ฟฝาน Swagger UI ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ๏ฟฝุก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    // c.RoutePrefix ไม่ถูกตั้งค่า หมายความว่า Swagger UI จะอยู่ที่ /swagger
-    // หากคุณต้องการใช้เส้นทางที่แตกต่างออกไป เช่น /api-docs คุณสามารถตั้งค่า c.RoutePrefix = "api-docs";
+    // c.RoutePrefix ๏ฟฝ๏ฟฝ๏ฟฝูก๏ฟฝ๏ฟฝ้งค๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝยค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ Swagger UI ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ /swagger
+    // ๏ฟฝาก๏ฟฝุณ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ้นทาง๏ฟฝ๏ฟฝ๏ฟฝแตก๏ฟฝ๏ฟฝาง๏ฟฝอก๏ฟฝ ๏ฟฝ๏ฟฝ /api-docs ๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝ้งค๏ฟฝ๏ฟฝ c.RoutePrefix = "api-docs";
 });
 
 if (!app.Environment.IsDevelopment())
@@ -58,5 +68,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers(); // Maps all controllers including AuthController
+
+app.MapRazorPages();
 
 app.Run();
